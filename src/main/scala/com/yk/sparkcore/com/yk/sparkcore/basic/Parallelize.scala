@@ -8,7 +8,7 @@ object Parallelize {
   def main(args: Array[String]): Unit = {
     val sparkSession: SparkSession = SparkSession.builder()
       .master("local")
-      .appName("Parallelize")
+      .appName(this.getClass.getName)
       .getOrCreate()
 
     val sc: SparkContext = sparkSession.sparkContext
