@@ -1,4 +1,4 @@
-package com.yk.sparkcore.com.yk.sparkcore.basic
+package com.yk.sparkcore.basic
 
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}

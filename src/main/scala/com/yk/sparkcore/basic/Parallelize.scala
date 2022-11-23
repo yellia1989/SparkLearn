@@ -1,4 +1,4 @@
-package com.yk.sparkcore.com.yk.sparkcore.basic
+package com.yk.sparkcore.basic
 
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
