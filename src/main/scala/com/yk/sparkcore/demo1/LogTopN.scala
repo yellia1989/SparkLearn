@@ -19,7 +19,7 @@ object LogTopN {
 
     val logRDD: RDD[String] = context.textFile("data/logtopn/log.txt")
 
-    val pathRDD: RDD[(String, Int)] = logRDD.map(
+    val pathRDD: RDD[(String, Int)] = logRDD.map {
       line => {
         val fields: Array[String] = line.split(" ")
         if (fields.length != 10) {
@@ -28,7 +28,7 @@ object LogTopN {
           (fields(6), 1)
         }
       }
-    ).filter(_._1.nonEmpty)
+    }.filter(_._1.nonEmpty)
 
     val tuples: Array[(String, Int)] = pathRDD.reduceByKey(_ + _).sortBy(_._2, false).take(2)
     tuples.foreach(println(_))
