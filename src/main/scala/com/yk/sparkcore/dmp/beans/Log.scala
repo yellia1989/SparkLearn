@@ -90,7 +90,7 @@ case class Log(val sessionid: String, //会话标识
                 val tagid: String, //广告位标识(当视频流量时值为视频ID号)
                 val callbackdate: String, //回调时间 格式为:YYYY/mm/dd hh:mm:ss
                 val channelid: String, //频道ID
-                val mediatype: Int ) extends  Serializable {
+                val mediatype: Int ) {
 }
 
 object Log {
@@ -107,7 +107,7 @@ object Log {
       return makeLog()
     }
 
-    val fields: Array[String] = log.split(" ")
+    val fields: Array[String] = log.split(",")
     if (fields.length < 79) return makeLog()
 
     new Log(fields(0), Utils.parseInt(fields(1)), Utils.parseInt(fields(2)), Utils.parseInt(fields(3)), Utils.parseInt(fields(4)), fields(5), fields(6), Utils.parseInt(fields(7)), Utils.parseInt(fields(8)), Utils.parseDouble(fields(9)), Utils.parseDouble(fields(10)),
