@@ -7,18 +7,22 @@ class B(name:String)
 
 object Utils {
   def parseInt(v:String):Int = {
-    if (StringUtils.isEmpty(v)) return 0
     try {
-      v.toInt
+      v.isEmpty match {
+        case true => 0
+        case false => v.toInt
+      }
     } catch {
       case _ => 0
     }
   }
 
   def parseDouble(v:String):Double = {
-    if (StringUtils.isEmpty(v)) return 0.0
     try {
-      v.toDouble
+      v.isEmpty match {
+        case true => 0.0
+        case false => v.toDouble
+      }
     } catch {
       case _ => 0.0
     }
@@ -38,6 +42,7 @@ object Utils {
 
   def main(args: Array[String]): Unit = {
 
+    println(parseInt(null))
     println(parseInt("a"))
     println(parseInt("1"))
     println(parseDouble("0.99"))
