@@ -2,6 +2,8 @@ package com.yk.sparkcore.dmp.utils
 
 import org.apache.commons.lang.StringUtils
 
+import java.io.File
+
 case class A(name:String)
 class B(name:String)
 
@@ -38,6 +40,24 @@ object Utils {
     val fields: Array[String] = v.split(" ")
     if (fields.length != 2) return None
     Some(fields(1).substring(0, 2))
+  }
+
+  def deleteFile(path: String): Unit = {
+
+    def deleteFile2(file: File):Boolean = {
+      if (file.isDirectory) {
+          for (f <- file.listFiles()) {
+            deleteFile2(f)
+          }
+      }
+      file.delete()
+    }
+
+    try {
+      deleteFile2(new File(path))
+    } catch {
+      case _ =>
+    }
   }
 
   def main(args: Array[String]): Unit = {

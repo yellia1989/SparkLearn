@@ -1,6 +1,7 @@
 package com.yk.sparkcore.dmp.tools
 
 import com.yk.sparkcore.dmp.beans.Log
+import com.yk.sparkcore.dmp.utils.Utils
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -24,17 +25,7 @@ object Tools {
     // 接收参数
     var Array(outputPath, inputPath, compressCodec) = args
 
-    val file = new File(outputPath)
-    file.isDirectory match {
-      case false => file.delete()
-      case true => {
-        for (f <- file.listFiles()) {
-          f.delete()
-        }
-        file.delete()
-      }
-    }
-
+    Utils.deleteFile(outputPath)
 
     // 创建执行环境
     val conf = new SparkConf()
