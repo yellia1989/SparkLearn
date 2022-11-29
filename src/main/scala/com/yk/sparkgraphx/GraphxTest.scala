@@ -29,6 +29,8 @@ object GraphxTest {
     }.count()
     println(count)
 
+    graph.vertices.foreach(println)
+
     val count1 = graph.edges.filter(e => e.srcId > e.dstId).count()
     println(count1)
 

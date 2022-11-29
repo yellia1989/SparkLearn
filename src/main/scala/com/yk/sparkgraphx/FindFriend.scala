@@ -1,6 +1,7 @@
 package com.yk.sparkgraphx
 
-import org.apache.spark.graphx.GraphLoader
+import org.apache.spark.graphx.{GraphLoader, VertexId}
+import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
@@ -11,12 +12,14 @@ object FindFriend {
     //graphx 基于RDD
     val conf = new SparkConf()
     conf.setMaster("local")
-    conf.setAppName("ConnectedComponentsExample")
+    conf.setAppName(this.getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
     //构建出来图有多种方式
     val grapxh = GraphLoader.edgeListFile(sc,"data/graphx/followers.txt")
-    // grapxh.vertices.foreach(println(_))
+    grapxh.vertices.foreach(println(_))
+    grapxh.edges.foreach(println)
+
     /**
      * (4,1)
         (1,1)
@@ -28,7 +31,7 @@ object FindFriend {
      */
 
     val cc = grapxh.connectedComponents().vertices
-    // cc.foreach(println)
+    cc.foreach(println)
 
     /**
      *
@@ -49,9 +52,12 @@ object FindFriend {
 
     //1,刘德华 join   1,1
     //1 刘德华，1（代表的是同一个好友的那个id）
-    users.join(cc).map{
-      case(id,(username,cclastid)) =>(cclastid,username)
-    }.reduceByKey( (x:String,y:String) => x + ","+ y)
+    val joinRDD: RDD[(VertexId, String)] = users.join(cc).map {
+      case (id, (username, ccminid)) => (ccminid, username)
+    }
+    joinRDD.foreach(println)
+
+    joinRDD.reduceByKey( (x:String,y:String) => x + ","+ y)
       .foreach(tuple =>{
         println(tuple._2)
       })
