@@ -11,7 +11,7 @@ object Jdbc {
   def main(args: Array[String]): Unit = {
 
     // load and register JDBC driver for MySQL
-    //Class.forName("com.mysql.jdbc.Driver");
+    Class.forName("com.mysql.jdbc.Driver");
 
     val getConn: () => Connection = () => {
       DriverManager.getConnection("jdbc:mysql://bigdata03:3306/sqoop?characterEncoding=UTF-8&useSSL=false", "root", "bigdata")
@@ -40,6 +40,9 @@ object Jdbc {
     rdd2.foreachPartition{
       iter => {
         val conn: Connection = getConn()
+        val stat1 = conn.prepareStatement("delete from dept_copy")
+        stat1.execute()
+
         conn.setAutoCommit(false)
 
         val statement = conn.prepareStatement("insert into dept_copy(deptno, dname, loc) values (?, ?, ?)")
